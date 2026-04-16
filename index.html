@@ -329,18 +329,6 @@
 
     .footer span { color: var(--accent); }
 
-    /* ── WAVE CANVAS ── */
-    #wave-canvas {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 220px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
     /* ── RIPPLE ── */
     .ripple-circle {
       position: absolute;
@@ -451,47 +439,7 @@
 
   </div>
 
-  <!-- WAVE CANVAS -->
-  <canvas id="wave-canvas"></canvas>
-
   <script>
-    // ── WAVE ──
-    const canvas = document.getElementById('wave-canvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = 220;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const waves = [
-      { y: 0.55, amp: 22, freq: 0.018, speed: 0.012, color: 'rgba(184,255,87,0.18)', offset: 0 },
-      { y: 0.68, amp: 16, freq: 0.025, speed: 0.018, color: 'rgba(184,255,87,0.12)', offset: 2 },
-      { y: 0.80, amp: 10, freq: 0.032, speed: 0.008, color: 'rgba(184,255,87,0.08)', offset: 4 },
-    ];
-
-    let tick = 0;
-    function drawWaves() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      waves.forEach(w => {
-        ctx.beginPath();
-        ctx.moveTo(0, canvas.height);
-        for (let x = 0; x <= canvas.width; x++) {
-          const y = w.y * canvas.height + Math.sin(x * w.freq + tick * w.speed + w.offset) * w.amp;
-          ctx.lineTo(x, y);
-        }
-        ctx.lineTo(canvas.width, canvas.height);
-        ctx.closePath();
-        ctx.fillStyle = w.color;
-        ctx.fill();
-      });
-      tick++;
-      requestAnimationFrame(drawWaves);
-    }
-    drawWaves();
-
     // ── RIPPLE ──
     function addRipple(e, el) {
       const rect = el.getBoundingClientRect();
