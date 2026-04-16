@@ -329,6 +329,66 @@
 
     .footer span { color: var(--accent); }
 
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+      box-shadow: 0 0 6px #4ade80;
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    .status-dot.busy { background: #f87171; box-shadow: 0 0 6px #f87171; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ── PHONE COPY ── */
+    /* ── FLOATING COPY BTN ── */
+    .float-copy-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-family: 'DM Mono', monospace;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .float-copy-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
+    .float-copy-btn.copied { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.08); }
+
     /* ── RIPPLE ── */
     .ripple-circle {
       position: absolute;
@@ -359,6 +419,10 @@
       </div>
       <div class="name">Nguyễn Duy Hoàng</div>
       <div class="handle">@SuuKeii</div>
+      <div class="status-badge">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Đang nhận đơn</span>
+      </div>
       <p class="bio">
         <strong>Full-stack Developer</strong> — Yêu thích xây dựng sản phẩm đẹp &amp; hiệu năng cao.<br/>
         Đang làm việc với <strong>React · Node · Go</strong>.
@@ -422,6 +486,8 @@
     <!-- CONTACT -->
     <div class="section">
       <div class="section-label">// liên hệ</div>
+
+      <!-- Email -->
       <div class="contact-box">
         <div class="contact-info">
           <span class="contact-label">email</span>
@@ -439,7 +505,25 @@
 
   </div>
 
+  <!-- FLOATING COPY SĐT -->
+  <button class="float-copy-btn" id="copy-phone-btn" onclick="copyPhone()">
+    📞 0869 605 545
+  </button>
+
   <script>
+    // ── COPY PHONE ──
+    function copyPhone() {
+      navigator.clipboard.writeText('0869605545').then(() => {
+        const btn = document.getElementById('copy-phone-btn');
+        btn.innerHTML = '✅ Đã copy!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = '📞 0869 605 545';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
     // ── RIPPLE ──
     function addRipple(e, el) {
       const rect = el.getBoundingClientRect();
