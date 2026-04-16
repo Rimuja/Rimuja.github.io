@@ -32,7 +32,25 @@
       overflow-x: hidden;
     }
 
-    /* Background grid */
+    /* Video background */
+    #bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Background grid (disabled) */
     body::before {
       content: '';
       position: fixed;
@@ -310,18 +328,49 @@
     }
 
     .footer span { color: var(--accent); }
+
+    /* ── WAVE CANVAS ── */
+    #wave-canvas {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 220px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── RIPPLE ── */
+    .ripple-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(184,255,87,0.3);
+      transform: scale(0);
+      animation: ripple-anim 0.6s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-anim {
+      to { transform: scale(5); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+  <!-- VIDEO BACKGROUND -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="background.mp4" type="video/mp4">
+  </video>
+  <div id="bg-overlay"></div>
   <div class="card">
 
     <!-- PROFILE -->
     <div class="profile">
       <div class="avatar-wrap">
-        <div class="avatar">👨‍💻</div>
+          <div class="avatar"><img src="avatar.jpg" alt="Nguyễn Duy Hoàng"></div>
       </div>
       <div class="name">Nguyễn Duy Hoàng</div>
-      <div class="handle">@yourhandle</div>
+      <div class="handle">@SuuKeii</div>
       <p class="bio">
         <strong>Full-stack Developer</strong> — Yêu thích xây dựng sản phẩm đẹp &amp; hiệu năng cao.<br/>
         Đang làm việc với <strong>React · Node · Go</strong>.
@@ -336,11 +385,11 @@
           <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
           GitHub
         </a>
-        <a class="social-btn" href="#" title="LinkedIn">
-          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
+        <a class="social-btn" href="https://zalo.me/0869605545" title="Zalo" target="_blank">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#0068FF"/><path d="M10.5 30.5c.7-1.6 1.1-3.4 1.1-5.2 0-7.1 5.8-12.8 12.9-12.8S37.4 18.2 37.4 25.3 31.6 38 24.5 38c-2 0-3.9-.5-5.6-1.3L10.5 38l2.2-7.5z" fill="white"/><text x="17" y="28" font-size="9" font-weight="bold" fill="#0068FF" font-family="Arial">Za</text></svg>
+          Zalo
         </a>
-        <a class="social-btn" href="fb.com/ThanhBi.NDH" title="Facebook">
+        <a class="social-btn" href="https://www.facebook.com/ThanhBi.NDH" title="Facebook">
           <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           Facebook
         </a>
@@ -388,7 +437,7 @@
       <div class="contact-box">
         <div class="contact-info">
           <span class="contact-label">email</span>
-          <span class="contact-email">hello@yourname.dev</span>
+          <span class="contact-email">nguyenduyhoangroblox@gmail.com</span>
         </div>
         <a class="contact-btn" href="mailto:nguyenduyhoangroblox@gmail.com">
           ✉ Gửi mail
@@ -401,5 +450,67 @@
     </div>
 
   </div>
+
+  <!-- WAVE CANVAS -->
+  <canvas id="wave-canvas"></canvas>
+
+  <script>
+    // ── WAVE ──
+    const canvas = document.getElementById('wave-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = 220;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const waves = [
+      { y: 0.55, amp: 22, freq: 0.018, speed: 0.012, color: 'rgba(184,255,87,0.18)', offset: 0 },
+      { y: 0.68, amp: 16, freq: 0.025, speed: 0.018, color: 'rgba(184,255,87,0.12)', offset: 2 },
+      { y: 0.80, amp: 10, freq: 0.032, speed: 0.008, color: 'rgba(184,255,87,0.08)', offset: 4 },
+    ];
+
+    let tick = 0;
+    function drawWaves() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      waves.forEach(w => {
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        for (let x = 0; x <= canvas.width; x++) {
+          const y = w.y * canvas.height + Math.sin(x * w.freq + tick * w.speed + w.offset) * w.amp;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.closePath();
+        ctx.fillStyle = w.color;
+        ctx.fill();
+      });
+      tick++;
+      requestAnimationFrame(drawWaves);
+    }
+    drawWaves();
+
+    // ── RIPPLE ──
+    function addRipple(e, el) {
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = (e.clientX - rect.left) - size / 2;
+      const y = (e.clientY - rect.top)  - size / 2;
+
+      const circle = document.createElement('span');
+      circle.className = 'ripple-circle';
+      circle.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+      el.style.position = 'relative';
+      el.style.overflow = 'hidden';
+      el.appendChild(circle);
+      setTimeout(() => circle.remove(), 650);
+    }
+
+    document.querySelectorAll('.link-item, .social-btn, .contact-btn').forEach(el => {
+      el.addEventListener('click', e => addRipple(e, el));
+    });
+  </script>
 </body>
 </html>
