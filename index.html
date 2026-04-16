@@ -11,7 +11,7 @@
 
     :root {
       --bg: #0c0c0e;
-      --surface: #141416;
+      --surface: rgba(20,20,22,0.55);
       --border: #222226;
       --text: #e8e8ec;
       --muted: #666672;
@@ -45,7 +45,7 @@
     #bg-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.3);
       z-index: 0;
       pointer-events: none;
     }
@@ -194,7 +194,9 @@
       align-items: center;
       gap: 14px;
       padding: 14px 16px;
-      background: var(--surface);
+      background: rgba(20,20,22,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       text-decoration: none;
@@ -263,7 +265,9 @@
       align-items: center;
       gap: 6px;
       padding: 14px 8px;
-      background: var(--surface);
+      background: rgba(20,20,22,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       text-decoration: none;
@@ -284,7 +288,9 @@
     /* ── CONTACT ── */
     .contact-box {
       padding: 18px 20px;
-      background: var(--surface);
+      background: rgba(20,20,22,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       display: flex;
@@ -335,7 +341,9 @@
       align-items: center;
       gap: 8px;
       padding: 8px 16px;
-      background: var(--surface);
+      background: rgba(20,20,22,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: 999px;
       font-family: 'DM Mono', monospace;
@@ -374,7 +382,9 @@
       align-items: center;
       gap: 8px;
       padding: 11px 16px;
-      background: var(--surface);
+      background: rgba(20,20,22,0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: 999px;
       color: var(--muted);
