@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@yourname — Dev & Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0e;
+      --surface: #141416;
+      --border: #222226;
+      --text: #e8e8ec;
+      --muted: #666672;
+      --accent: #b8ff57;
+      --accent-dim: rgba(184,255,87,0.08);
+      --radius: 14px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 16px 80px;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow blob */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(184,255,87,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PROFILE ── */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 36px;
+      animation: fadeUp 0.6s 0.05s ease both;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin-bottom: 18px;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0deg 90deg, transparent 90deg 360deg);
+      animation: spin 6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avatar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--bg);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      z-index: 1;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .handle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+
+    .bio {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+
+    .bio strong { color: var(--text); font-weight: 500; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
+
+    .section { margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.18s; }
+    .section:nth-child(4) { animation-delay: 0.26s; }
+    .section:nth-child(5) { animation-delay: 0.34s; }
+
+    /* ── LINKS ── */
+    .links { display: flex; flex-direction: column; gap: 10px; }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-weight: 400;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-dim);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .link-item:hover {
+      border-color: rgba(184,255,87,0.35);
+      transform: translateX(3px);
+    }
+
+    .link-item:hover::after { opacity: 1; }
+
+    .link-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-info { flex: 1; position: relative; z-index: 1; }
+    .link-title { display: block; color: var(--text); font-weight: 500; }
+    .link-sub   { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+
+    .link-arrow {
+      font-size: 0.8rem;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+      transition: color 0.2s;
+    }
+    .link-item:hover .link-arrow { color: var(--accent); }
+
+    /* ── SOCIAL ROW ── */
+    .social-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .social-btn:hover {
+      border-color: rgba(184,255,87,0.35);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .social-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .contact-info { display: flex; flex-direction: column; gap: 3px; }
+    .contact-label { font-size: 0.7rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+    .contact-email { font-size: 0.875rem; color: var(--text); font-weight: 500; }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: var(--accent);
+      color: #0c0c0e;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: 'DM Mono', monospace;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .contact-btn:hover { opacity: 0.85; transform: scale(0.97); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+      margin-top: 12px;
+      animation: fadeUp 0.6s 0.4s ease both;
+      opacity: 0;
+      animation-fill-mode: both;
+    }
+
+    .footer span { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- PROFILE -->
+    <div class="profile">
+      <div class="avatar-wrap">
+        <div class="avatar">👨‍💻</div>
+      </div>
+      <div class="name">Nguyễn Duy Hoàng</div>
+      <div class="handle">@yourhandle</div>
+      <p class="bio">
+        <strong>Full-stack Developer</strong> — Yêu thích xây dựng sản phẩm đẹp &amp; hiệu năng cao.<br/>
+        Đang làm việc với <strong>React · Node · Go</strong>.
+      </p>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="section">
+      <div class="section-label">// mạng xã hội</div>
+      <div class="social-row">
+        <a class="social-btn" href="https://github.com/Rimuja" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          GitHub
+        </a>
+        <a class="social-btn" href="#" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a class="social-btn" href="fb.com/ThanhBi.NDH" title="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a class="social-btn" href="#" title="Twitter / X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+      </div>
+    </div>
+
+    <!-- PRODUCTS / SERVICES -->
+    <div class="section">
+      <div class="section-label">// sản phẩm & dịch vụ</div>
+      <div class="links">
+        <a class="link-item" href="#">
+          <div class="link-icon">🚀</div>
+          <div class="link-info">
+            <span class="link-title">Portfolio cá nhân</span>
+            <span class="link-sub">Các dự án tôi đã xây dựng</span>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a class="link-item" href="#">
+          <div class="link-icon">🛠️</div>
+          <div class="link-info">
+            <span class="link-title">Dịch vụ freelance</span>
+            <span class="link-sub">Web app · API · Tư vấn kỹ thuật</span>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a class="link-item" href="#">
+          <div class="link-icon">📝</div>
+          <div class="link-info">
+            <span class="link-title">Blog công nghệ</span>
+            <span class="link-sub">Chia sẻ kiến thức & kinh nghiệm</span>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="section">
+      <div class="section-label">// liên hệ</div>
+      <div class="contact-box">
+        <div class="contact-info">
+          <span class="contact-label">email</span>
+          <span class="contact-email">hello@yourname.dev</span>
+        </div>
+        <a class="contact-btn" href="mailto:nguyenduyhoangroblox@gmail.com">
+          ✉ Gửi mail
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      made with <span>♥</span> · 2025
+    </div>
+
+  </div>
+</body>
+</html>
